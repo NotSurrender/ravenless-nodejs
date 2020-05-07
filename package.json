@@ -1,0 +1,50 @@
+{
+  "name": "ravenless-nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node-dev --respawn index.ts",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NotSurrender/ravenless-nodejs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NotSurrender/ravenless-nodejs/issues"
+  },
+  "homepage": "https://github.com/NotSurrender/ravenless-nodejs#readme",
+  "dependencies": {
+    "config": "^3.3.1",
+    "jsonwebtoken": "^8.5.1",
+    "koa": "^2.11.0",
+    "koa-bodyparser": "^4.3.0",
+    "koa-favicon": "^2.1.0",
+    "koa-jwt": "^3.6.0",
+    "koa-logger": "^3.2.1",
+    "koa-router": "^8.0.8",
+    "lodash": "^4.17.15",
+    "mongoose": "^5.9.10",
+    "mongoose-beautiful-unique-validation": "^7.1.1",
+    "uuid": "^8.0.0"
+  },
+  "devDependencies": {
+    "@types/config": "0.0.36",
+    "@types/jsonwebtoken": "^8.3.9",
+    "@types/koa-bodyparser": "^4.3.0",
+    "@types/koa-favicon": "^2.0.19",
+    "@types/koa-jwt": "^3.3.0",
+    "@types/koa-logger": "^3.1.1",
+    "@types/koa-router": "^7.4.0",
+    "@types/lodash": "^4.14.150",
+    "@types/mongoose": "^5.7.13",
+    "@types/uuid": "^7.0.3",
+    "ts-node": "^8.9.0",
+    "ts-node-dev": "^1.0.0-pre.44",
+    "typescript": "^3.8.3"
+  }
+}
