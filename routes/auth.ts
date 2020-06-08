@@ -4,6 +4,8 @@ import config from 'config';
 import jwtMiddleware from 'koa-jwt';
 import { v4 } from 'uuid';
 import { pick } from 'lodash';
+import path from 'path';
+import sendpulse from 'sendpulse-api';
 
 import User from '../models/User';
 import RefreshToken from '../models/RefreshToken';
@@ -31,13 +33,16 @@ router.post('/login', async ctx => {
   const { email, password } = ctx.request.body;
   const user = await User.findOne({ email });
 
+  // TODO: Заменить на ctx.throw
   if (!user || !(await user.checkPassword(password))) {
     const error: IError = new Error();
     error.status = 403;
     throw error;
   }
 
-  ctx.body = await issueTokenPair(user.id);
+  const tokenPair = await issueTokenPair(user.id);
+
+  ctx.body = { ...user.toObject(), ...tokenPair };
 });
 
 router.post('/refresh', async ctx => {
@@ -58,7 +63,27 @@ router.post('/register', async ctx => {
   await user.setPassword(ctx.request.body.password);
   await user.save();
 
-  ctx.body = await issueTokenPair(user.id);
+  sendpulse.init(config.get('sendpulse.userId'), config.get('sendpulse.secret'), __dirname, () => {
+    sendpulse.smsSend((data: any) => console.log(data), 'Ravenless', [79998676941], 'test sms');
+  });
+
+  ctx.body = { success: true };
+});
+
+router.get('/check-email', async ctx => {
+  const { email } = ctx.request.query;
+
+  if (!email) {
+    ctx.throw(422, 'Email не отправлен');
+  }
+
+  const user = await User.findOne({ email });
+
+  if (user) {
+    ctx.throw(404, 'Email занят');
+  }
+
+  ctx.body = { success: true };
 });
 
 router.post('/logout', jwtMiddleware({ secret: config.get('secret') }), async ctx => {

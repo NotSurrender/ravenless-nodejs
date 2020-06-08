@@ -3,8 +3,8 @@ import Router from 'koa-router';
 import jwtMiddleware from 'koa-jwt';
 import config from 'config';
 
-import authModule from './modules/auth';
-import usersModule from './modules/users';
+import authRoutes from './routes/auth';
+import userRoutes from './routes/users';
 
 const app = new Koa();
 
@@ -15,13 +15,13 @@ require('./handlers/bodyParser').default(app);
 
 const router = new Router();
 
-router.use('/auth', authModule.routes());
+router.use('/auth', authRoutes.routes());
 router.use(
   jwtMiddleware({
     secret: config.get('secret')
   })
 );
-router.use('/users', usersModule.routes());
+router.use('/users', userRoutes.routes());
 
 app.use(router.routes());
 
